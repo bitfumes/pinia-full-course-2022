@@ -1,27 +1,28 @@
 import { defineStore } from "pinia";
+import { computed, ref } from "vue";
 import { useAuthStore } from "./auth";
 
-export const useCounterStore = defineStore("counter", {
-  state: () => ({
-    count: 0,
-  }),
-  getters: {
-    countDigitLength: (state) => state.count.toString().length,
-  },
-  actions: {
-    increment() {
-      if (!this.isAuthenticated()) return;
+export const useCounterStore = defineStore("counter", () => {
+  const count = ref(0);
 
-      this.count++;
-    },
-    decrement() {
-      if (!this.isAuthenticated()) return;
+  const countDigitLength = computed(() => {
+    count.toString().length;
+  });
 
-      this.count--;
-    },
-    isAuthenticated() {
-      const authStore = useAuthStore();
-      return authStore.isAuthenticated;
-    },
-  },
+  function increment() {
+    if (!isAuthenticated()) return;
+
+    this.count++;
+  }
+  function decrement() {
+    if (!isAuthenticated()) return;
+
+    this.count--;
+  }
+  function isAuthenticated() {
+    const authStore = useAuthStore();
+    return authStore.isAuthenticated;
+  }
+
+  return { increment, decrement, count, countDigitLength };
 });
