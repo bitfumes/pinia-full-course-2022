@@ -1,28 +1,19 @@
 <template>
   <div>
     <br />
-    <button @click="increment">+</button>
-    Count Value : {{ store.count }}
-    <button @click="decrement">-</button>
+    <button @click="counterStore.increment">+</button>
+    Count Value : {{ count }}
+    <button @click="counterStore.decrement">-</button>
 
     <br />
-    Counter moved to {{ store.countDigitLength }} digit length
+    Counter moved to {{ countDigitLength }} digit length
   </div>
 </template>
 
 <script setup>
 import { useCounterStore } from "@/stores/counter";
-import { computed } from "@vue/runtime-core";
-const store = useCounterStore();
+import { storeToRefs } from "pinia";
 
-function increment() {
-  store.count++;
-}
-
-function decrement() {
-  store.count--;
-}
-
-// const countDigitLength = computed(() => store.count.toString().length);
-// const countDigitLength = store.count.toString().length;
+const counterStore = useCounterStore();
+const { count, countDigitLength } = storeToRefs(counterStore);
 </script>
